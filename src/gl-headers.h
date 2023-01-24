@@ -69,6 +69,14 @@
 #endif
 #endif
 
+#ifndef GL_SYNC_GPU_COMMANDS_COMPLETE
+#define GL_SYNC_GPU_COMMANDS_COMPLETE 0x9117
+#define GL_SYNC_FLUSH_COMMANDS_BIT 0x00000001
+typedef GLsync (GLAD_API_PTR *PFNGLFENCESYNCPROC) (GLenum condition, GLbitfield flags);
+typedef void (GLAD_API_PTR *PFNGLDELETESYNCPROC) (GLsync sync);
+typedef GLenum (GLAD_API_PTR *PFNGLCLIENTWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
+#endif
+
 #include <string>
 
 /**
@@ -99,6 +107,10 @@ struct GLExtensions {
     static void (GLAD_API_PTR *RenderbufferStorage)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 
     static void (GLAD_API_PTR *GenerateMipmap)(GLenum target);
+
+    static PFNGLFENCESYNCPROC FenceSync;
+    static PFNGLDELETESYNCPROC DeleteSync;
+    static PFNGLCLIENTWAITSYNCPROC ClientWaitSync;
 };
 
 #endif

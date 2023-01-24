@@ -38,6 +38,10 @@ void (GLAD_API_PTR *GLExtensions::RenderbufferStorage)(GLenum target, GLenum int
 
 void (GLAD_API_PTR *GLExtensions::GenerateMipmap)(GLenum target) = 0;
 
+PFNGLFENCESYNCPROC GLExtensions::FenceSync = 0;
+PFNGLDELETESYNCPROC GLExtensions::DeleteSync = 0;
+PFNGLCLIENTWAITSYNCPROC GLExtensions::ClientWaitSync = 0;
+
 bool
 GLExtensions::support(const std::string &ext)
 {

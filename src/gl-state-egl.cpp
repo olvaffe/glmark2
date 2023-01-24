@@ -378,6 +378,11 @@ GLStateEGL::init_gl_extensions()
 
     GLExtensions::GenerateMipmap = glGenerateMipmapEXT;
 #endif
+
+    GLExtensions::FenceSync = (PFNGLFENCESYNCPROC)load_proc(NULL, "glFenceSync");
+    GLExtensions::DeleteSync = (PFNGLDELETESYNCPROC)load_proc(NULL, "glDeleteSync");
+    GLExtensions::ClientWaitSync = (PFNGLCLIENTWAITSYNCPROC)load_proc(NULL, "glClientWaitSync");
+
     return true;
 }
 
@@ -753,7 +758,7 @@ GLStateEGL::gotValidContext()
 
     static const EGLint context_attribs[] = {
 #ifdef GLMARK2_USE_GLESv2
-        EGL_CONTEXT_CLIENT_VERSION, 2,
+        EGL_CONTEXT_CLIENT_VERSION, 3,
 #endif
         EGL_NONE
     };
