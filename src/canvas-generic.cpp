@@ -109,7 +109,7 @@ CanvasGeneric::fence_wait(int i)
     if (!fences_[i])
         return;
 
-    GLExtensions::ClientWaitSync(fences_[i], GL_SYNC_FLUSH_COMMANDS_BIT, UINT64_MAX);
+    GLExtensions::ClientWaitSync(fences_[i], 0, UINT64_MAX);
     GLExtensions::DeleteSync(fences_[i]);
     fences_[i] = 0;
 }
@@ -121,6 +121,8 @@ CanvasGeneric::fence_sync()
         fence_wait(fence_next_);
 
     fences_[fence_next_] = GLExtensions::FenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+    glFlush();
+
     fence_next_ = (fence_next_ + 1) % fence_count_;
 }
 
