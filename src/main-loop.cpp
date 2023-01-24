@@ -113,6 +113,8 @@ MainLoop::step()
      * in draw() may have changed the state.
      */
     if (!scene_->running() || should_quit) {
+        canvas_.wait();
+
         (*bench_iter_)->teardown_scene();
         if (scene_setup_status_ == SceneSetupStatusSuccess) {
             score_ += scene_->average_fps();

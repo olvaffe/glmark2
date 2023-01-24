@@ -113,6 +113,8 @@ frame_end_from_str(const std::string &str)
 
     if (str == "swap")
         m = Options::FrameEndSwap;
+    else if (str == "fence")
+        m = Options::FrameEndFence;
     else if (str == "finish")
         m = Options::FrameEndFinish;
     else if (str == "readpixels")
@@ -204,7 +206,7 @@ Options::print_help()
            "                         running the benchmarks\n"
            "      --data-path PATH   Path to glmark2 models, shaders and textures\n"
            "                         Default: " GLMARK_DATA_PATH "\n"
-           "      --frame-end METHOD How to end a frame [default,none,swap,finish,readpixels]\n"
+           "      --frame-end METHOD How to end a frame [default,none,swap,fence,finish,readpixels]\n"
            "      --swap-mode MODE   How to swap a frame, all modes supported only in the DRM\n"
            "                         flavor, 'fifo' available in all flavors to force vsync\n"
            "                         [default,immediate,mailbox,fifo]\n"

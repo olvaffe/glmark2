@@ -132,6 +132,8 @@ public:
      */
     virtual void update() {}
 
+    virtual void wait() {}
+
     /**
      * Prints information about the canvas.
      *

@@ -47,6 +47,7 @@ public:
     void visible(bool visible);
     void clear();
     void update();
+    void wait();
     void print_info();
     Pixel read_pixel(int x, int y);
     void write_to_file(std::string &filename);
@@ -72,6 +73,12 @@ private:
     GLuint depth_renderbuffer_;
     GLuint fbo_;
     bool window_initialized_;
+
+    void fence_wait(int i);
+    void fence_sync();
+    constexpr static int fence_count_ = 3;
+    int fence_next_;
+    GLsync fences_[fence_count_];
 };
 
 #endif /* GLMARK2_CANVAS_GENERIC_H_ */

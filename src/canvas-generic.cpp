@@ -52,6 +52,10 @@ CanvasGeneric::reset()
 {
     release_fbo();
 
+    fence_next_ = 0;
+    for (int i = 0; i < fence_count_; i++)
+        fences_[i] = 0;
+
     if (!gl_state_.reset())
         return false;
 
@@ -100,6 +104,27 @@ CanvasGeneric::clear()
 }
 
 void
+CanvasGeneric::fence_wait(int i)
+{
+    if (!fences_[i])
+        return;
+
+    GLExtensions::ClientWaitSync(fences_[i], GL_SYNC_FLUSH_COMMANDS_BIT, UINT64_MAX);
+    GLExtensions::DeleteSync(fences_[i]);
+    fences_[i] = 0;
+}
+
+void
+CanvasGeneric::fence_sync()
+{
+    if (fences_[fence_next_])
+        fence_wait(fence_next_);
+
+    fences_[fence_next_] = GLExtensions::FenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+    fence_next_ = (fence_next_ + 1) % fence_count_;
+}
+
+void
 CanvasGeneric::update()
 {
     Options::FrameEnd m = Options::frame_end;
@@ -116,6 +141,9 @@ CanvasGeneric::update()
             gl_state_.swap();
             native_state_.flip();
             break;
+        case Options::FrameEndFence:
+            fence_sync();
+            break;
         case Options::FrameEndFinish:
             glFinish();
             break;
@@ -126,6 +154,13 @@ CanvasGeneric::update()
         default:
             break;
     }
+}
+
+void
+CanvasGeneric::wait()
+{
+    for (int i = 0; i < fence_count_; i++)
+        fence_wait(i);
 }
 
 void
