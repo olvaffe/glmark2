@@ -77,6 +77,8 @@ typedef void (GLAD_API_PTR *PFNGLDELETESYNCPROC) (GLsync sync);
 typedef GLenum (GLAD_API_PTR *PFNGLCLIENTWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
 #endif
 
+typedef void (GLAD_API_PTR *PFNGLINVALIDATEFRAMEBUFFERPROC) (GLenum target, GLsizei numAttachments, const GLenum *attachments);
+
 #include <string>
 
 /**
@@ -111,6 +113,7 @@ struct GLExtensions {
     static PFNGLFENCESYNCPROC FenceSync;
     static PFNGLDELETESYNCPROC DeleteSync;
     static PFNGLCLIENTWAITSYNCPROC ClientWaitSync;
+    static PFNGLINVALIDATEFRAMEBUFFERPROC InvalidateFramebuffer;
 };
 
 #endif

@@ -382,6 +382,7 @@ GLStateEGL::init_gl_extensions()
     GLExtensions::FenceSync = (PFNGLFENCESYNCPROC)load_proc(NULL, "glFenceSync");
     GLExtensions::DeleteSync = (PFNGLDELETESYNCPROC)load_proc(NULL, "glDeleteSync");
     GLExtensions::ClientWaitSync = (PFNGLCLIENTWAITSYNCPROC)load_proc(NULL, "glClientWaitSync");
+    GLExtensions::InvalidateFramebuffer = (PFNGLINVALIDATEFRAMEBUFFERPROC)load_proc(NULL, "glInvalidateFramebuffer");
 
     return true;
 }
