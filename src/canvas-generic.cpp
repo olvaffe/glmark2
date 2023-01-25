@@ -117,11 +117,13 @@ CanvasGeneric::fence_wait(int i)
 void
 CanvasGeneric::fence_sync()
 {
+    GLsync fence = GLExtensions::FenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+    glFlush();
+
+    /* throttle to make sure we queue up at most fence_count_ frames */
     if (fences_[fence_next_])
         fence_wait(fence_next_);
-
-    fences_[fence_next_] = GLExtensions::FenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-    glFlush();
+    fences_[fence_next_] = fence;
 
     fence_next_ = (fence_next_ + 1) % fence_count_;
 }
