@@ -117,6 +117,12 @@ CanvasGeneric::fence_wait(int i)
 void
 CanvasGeneric::fence_sync()
 {
+#ifndef GL_STENCIL_ATTACHMENT
+#define GL_STENCIL_ATTACHMENT GL_STENCIL_ATTACHMENT_EXT
+#endif
+    const GLenum atts[] = {GL_DEPTH_ATTACHMENT, GL_STENCIL_ATTACHMENT};
+    GLExtensions::InvalidateFramebuffer(GL_FRAMEBUFFER, 2, atts);
+
     GLsync fence = GLExtensions::FenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
     glFlush();
 
